@@ -50,7 +50,7 @@ class DMakerControllerTest {
                 .memberId("memberId2")
                 .build();
 
-        given(dMakerService.getAllDevelopers())
+        given(dMakerService.getAllEmployedDevelopers())
                 .willReturn(Arrays.asList(juniorDeveloperDto, seniorDeveloperDto));
 
         mockMvc.perform(get("/developers").contentType(contentType))
