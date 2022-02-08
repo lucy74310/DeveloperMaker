@@ -43,7 +43,7 @@ public class DMakerController {
 
     @PostMapping("/create-developers")
     public CreateDeveloper.Response createDevelopers(
-            @RequestBody CreateDeveloper.Request request
+            @Valid @RequestBody CreateDeveloper.Request request
     ) {
         log.info("request : {}", request);
         return dMakerService.createDeveloper(request);
