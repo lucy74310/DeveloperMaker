@@ -22,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 // 컨트롤러 빈들만 올려서 테스트. 원하는거 지정도 가능
+// 컨트롤러 어드바이스나 필터까지 올려줌
 @WebMvcTest(DMakerController.class)
 //@WebMvcTest
 class DMakerControllerTest {

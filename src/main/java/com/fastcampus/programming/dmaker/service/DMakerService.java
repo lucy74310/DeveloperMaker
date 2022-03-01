@@ -1,9 +1,6 @@
 package com.fastcampus.programming.dmaker.service;
 
-import com.fastcampus.programming.dmaker.dto.CreateDeveloper;
-import com.fastcampus.programming.dmaker.dto.DeveloperDetailDto;
-import com.fastcampus.programming.dmaker.dto.DeveloperDto;
-import com.fastcampus.programming.dmaker.dto.EditDeveloper;
+import com.fastcampus.programming.dmaker.dto.*;
 import com.fastcampus.programming.dmaker.entity.Developer;
 import com.fastcampus.programming.dmaker.entity.RetiredDeveloper;
 import com.fastcampus.programming.dmaker.exception.DMakerException;
@@ -11,6 +8,7 @@ import com.fastcampus.programming.dmaker.repository.DeveloperRepository;
 import com.fastcampus.programming.dmaker.repository.RetiredDeveloperRepository;
 import com.fastcampus.programming.dmaker.type.DeveloperLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +22,7 @@ import static com.fastcampus.programming.dmaker.exception.DMakerErrorCode.*;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class DMakerService {
     private final DeveloperRepository developerRepository;
     private final RetiredDeveloperRepository retiredDeveloperRepository;
@@ -52,8 +51,11 @@ public class DMakerService {
     }
 
     private void validationCreateDeveloper(CreateDeveloper.Request request) {
-        validateDeveloperLevel(request.getDeveloperLevel(), request.getExperienceYears());
-
+        // business
+        validateDeveloperLevel(
+            request.getDeveloperLevel(),
+            request.getExperienceYears()
+        );
         developerRepository.findByMemberId(request.getMemberId())
                 .ifPresent((developer -> {
                     throw new DMakerException(DUPLICATED_MEMBER_ID);
@@ -61,8 +63,6 @@ public class DMakerService {
     }
 
     private void validateDeveloperLevel(DeveloperLevel developerLevel, Integer experienceYears) {
-        System.out.println(developerLevel);
-        System.out.println(experienceYears);
         if (developerLevel == DeveloperLevel.SENIOR && experienceYears < 10) {
             throw new DMakerException(LEVEL_EXPERIENCE_YEAR_NOT_MATCHED);
         }
